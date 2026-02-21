@@ -129,7 +129,19 @@ app.get('/api/users/:telegram_id/purchases', (req, res) => {
   });
 });
 
+// Serve Next.js static export if available
+const path = require('path');
+const fs_sync = require('fs');
+const staticDir = path.join(__dirname, '.next/standalone');
+if (fs_sync.existsSync(path.join(__dirname, 'out'))) {
+  app.use(express.static(path.join(__dirname, 'out')));
+  app.get('*', (req, res, next) => {
+    if (req.path.startsWith('/api/')) return next();
+    res.sendFile(path.join(__dirname, 'out', 'index.html'));
+  });
+}
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`🚀 API server running on port ${PORT}`);
+  console.log(`🚀 Server running on port ${PORT} (API + Static)`);
 });
