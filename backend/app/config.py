@@ -8,7 +8,13 @@ class Settings(BaseSettings):
 
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://postgres:postgres@db:5432/finansist"
-    DATABASE_URL_SYNC: str = "postgresql://postgres:postgres@db:5432/finansist"
+
+    @property
+    def async_database_url(self) -> str:
+        url = self.DATABASE_URL
+        if url.startswith("postgresql://"):
+            url = url.replace("postgresql://", "postgresql+asyncpg://", 1)
+        return url
 
     # Payments (mock mode)
     YOOKASSA_SHOP_ID: str = ""
