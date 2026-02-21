@@ -12,8 +12,6 @@
     "all": "node db-init.js && concurrently \"npm run api\" \"npm run bot\" \"npm run dev\""
   },
   "dependencies": {
-    "@codesandbox/sandpack-react": "^2.19.11",
-    "@telegram-apps/sdk-react": "^2.4.0",
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^4.21.2",
