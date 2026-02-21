@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    environment:
+      - BOT_TOKEN=${BOT_TOKEN}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - PORT=3000
+      - MINI_APP_URL=${MINI_APP_URL:-http://localhost:3001}
+    volumes:
+      - ./data.db:/app/data.db
+    restart: unless-stopped
