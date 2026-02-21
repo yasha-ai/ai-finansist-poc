@@ -6,7 +6,9 @@ const OpenAI = require('openai');
 
 const app = express();
 const db = new sqlite3.Database('./data.db');
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const openai = process.env.OPENAI_API_KEY 
+  ? new OpenAI({ apiKey: process.env.OPENAI_API_KEY }) 
+  : null;
 
 app.use(cors());
 app.use(express.json());
@@ -70,9 +72,10 @@ app.post('/api/purchases', (req, res) => {
 app.post('/api/ai/chat', async (req, res) => {
   const { certificate_id, message } = req.body;
 
-  if (!process.env.OPENAI_API_KEY) {
-    return res.status(501).json({ 
-      error: 'AI integration not configured. Add OPENAI_API_KEY to .env' 
+  if (!openai) {
+    return res.json({ 
+      response: 'AI-консультант временно недоступен. В полной версии здесь будет персональный финансовый советник на базе GPT/GigaChat.',
+      certificate: 'demo'
     });
   }
 

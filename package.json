@@ -1,30 +1,27 @@
 {
   "name": "ai-finansist-poc",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "private": true,
   "scripts": {
-    "db:init": "node db-init.js",
+    "dev": "next dev -p 4020",
+    "build": "next build",
+    "start": "next start -p 4020",
     "bot": "node bot.js",
-    "server": "node server.js",
-    "dev": "cd mini-app && npm run dev",
-    "build": "cd mini-app && npm run build",
-    "start": "npm run server & npm run bot",
-    "test": "echo \"No tests yet\" && exit 0"
+    "api": "node server.js",
+    "db:init": "node db-init.js",
+    "all": "node db-init.js && concurrently \"npm run api\" \"npm run bot\" \"npm run dev\""
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "@telegram-apps/sdk-react": "^3.3.9",
-    "cors": "^2.8.6",
-    "dotenv": "^17.3.1",
-    "express": "^5.2.1",
-    "grammy": "^1.40.0",
-    "next": "^16.1.6",
-    "openai": "^6.22.0",
-    "react": "^19.2.4",
-    "react-dom": "^19.2.4",
+    "@codesandbox/sandpack-react": "^2.19.11",
+    "@telegram-apps/sdk-react": "^2.4.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "grammy": "^1.35.0",
+    "next": "^15.2.1",
+    "openai": "^4.87.4",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "sqlite3": "^5.1.7"
   }
 }

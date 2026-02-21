@@ -1,24 +1,19 @@
-FROM node:20-alpine
+FROM node:22-slim
 
 WORKDIR /app
 
-# Copy package files
+# Install deps
 COPY package*.json ./
-RUN npm install --production
+RUN npm ci --only=production
 
-# Copy application files
+# Copy source
 COPY . .
 
-# Initialize database
-RUN npm run db:init
+# Init DB and build
+RUN node db-init.js
+RUN npx next build
 
-# Build Mini App
-WORKDIR /app/mini-app
-RUN npm install && npm run build
+EXPOSE 3001 4020
 
-WORKDIR /app
-
-EXPOSE 3000
-
-# Start both bot and server
-CMD ["npm", "start"]
+# Run API + Next.js
+CMD ["sh", "-c", "node server.js & npx next start -p 4020"]
