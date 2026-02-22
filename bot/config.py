@@ -6,8 +6,9 @@ from pydantic_settings import BaseSettings
 class Settings(BaseSettings):
     """Настройки приложения из переменных окружения."""
 
-    # Telegram
+    # Telegram (принимает TELEGRAM_TOKEN или BOT_TOKEN)
     telegram_token: str = ""
+    bot_token: str = ""
 
     # MetaTrader 5
     mt5_login: int = 0
@@ -27,4 +28,8 @@ class Settings(BaseSettings):
     model_config = {"env_file": ".env", "env_file_encoding": "utf-8", "extra": "ignore"}
 
 
-settings = Settings()
+_s = Settings()
+# Fallback: если telegram_token пуст, используем bot_token
+if not _s.telegram_token and _s.bot_token:
+    _s.telegram_token = _s.bot_token
+settings = _s
